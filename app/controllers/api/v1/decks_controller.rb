@@ -6,11 +6,11 @@ class Api::V1::DecksController < ApplicationController
 
   def create
     data = JSON.parse(request.body.read)
-    @new_deck = Deck.new({
+    @new_deck = Deck.new(
       user: current_user,
       name: data['deck']['name'],
       description: data['deck']['description']
-    })
+    )
 
     if @new_deck.save
       render json: @new_deck, adapter: :json
