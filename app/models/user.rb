@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  has_many :decks
+
   def self.from_omniauth(auth)
     user = User.find_or_initialize_by(provider: auth.provider, uid: auth.uid)
     user.provider = auth.provider
