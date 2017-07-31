@@ -1,16 +1,16 @@
 source 'https://rubygems.org/'
 ruby '2.3.3'
 
-gem 'rails', '>= 5.1'
-gem 'pg', '~> 0.18'
+gem 'active_model_serializers'
 gem 'dotenv-rails', '~> 2.1', '>= 2.1.1'
+gem 'jquery-rails'
+gem "omniauth-google-oauth2", "~> 0.2.1"
+gem 'pg', '~> 0.18'
 gem 'puma', '~> 3.0'
+gem 'rails', '>= 5.1'
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
-gem 'jquery-rails'
 gem 'webpacker'
-gem "omniauth-google-oauth2", "~> 0.2.1"
-gem 'active_model_serializers'
 
 group :development do
   gem 'listen', '~> 3.0.5'
@@ -21,12 +21,12 @@ end
 group :development, :test do
   gem 'capybara'
   gem 'factory_girl_rails'
+  gem 'faker'
   gem 'launchy', require: false
   gem 'pry-rails'
   gem 'rspec-rails', '~> 3.5'
   gem 'shoulda'
   gem 'valid_attribute'
-  gem 'faker'
 end
 
 group :test do
