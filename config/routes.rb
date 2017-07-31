@@ -8,5 +8,11 @@ Rails.application.routes.draw do
   resources :sessions, only: [:create, :destroy]
   resource :home, only: [:show]
 
+  namespace :api do
+    namespace :v1 do
+      resources :decks, only: [:index, :create]
+    end
+  end
+
   root to: "home#show"
 end
