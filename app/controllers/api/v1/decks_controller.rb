@@ -43,7 +43,7 @@ class Api::V1::DecksController < ApplicationController
 
     if data['cards'].is_a?(Array)
       updated_cards = @deck.update_cards(data['cards'])
-      errors << 'Invalid card data' if created_cards.nil?
+      errors << 'Invalid card data' if updated_cards.nil?
     end
 
     if data['deletedCards'].is_a?(Array)
