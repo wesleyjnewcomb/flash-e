@@ -36,6 +36,13 @@ class Api::V1::DecksController < ApplicationController
       errors << 'Invalid card data' if created_cards.nil?
     end
 
+    if data['deletedCards'].is_a?(Array)
+      data['deletedCards'].each do |id|
+        card = Card.find(id)
+        card.destroy
+      end
+    end
+
     if @deck.save && errors.empty?
       return render json: @deck, adapter: :json
     else

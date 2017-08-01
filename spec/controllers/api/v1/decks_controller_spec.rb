@@ -235,5 +235,28 @@ RSpec.describe Api::V1::DecksController, type: :controller do
         expect(returned_json['errors']).to include('Invalid card data')
       end
     end
+
+    context 'deleting cards' do
+      let(:deck_data) do
+        {
+          deck: {
+            deletedCards: [ cards[1].id, cards[2].id ]
+          }
+        }
+      end
+
+      it 'deletes only the cards with the ids provided' do
+        cards
+        expect do
+          patch :update, params: { id: deck.id }, body: deck_data.to_json
+        end.to change { Card.count }.by -2
+
+        expect(deck.cards).to include(cards[0])
+        expect(deck.cards).not_to include(cards[1])
+        expect(deck.cards).not_to include(cards[2])
+        expect(deck.cards).to include(cards[3])
+        expect(deck.cards).to include(cards[4])
+      end
+    end
   end
 end
