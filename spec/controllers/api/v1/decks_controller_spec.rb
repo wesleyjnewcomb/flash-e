@@ -49,6 +49,19 @@ RSpec.describe Api::V1::DecksController, type: :controller do
 
     after(:each) { session[:user_id] = nil }
 
+    context 'user is not signed in' do
+      it 'responds with 403' do
+        session[:user_id] = nil
+        deck_data = {
+          deck: {
+            name: 'deck name',
+            description: 'deck description'
+          }
+        }
+        post :create, body: deck_data.to_json
+        expect(response.status).to eq 403
+      end
+    end
 
     context 'correct data' do
       let(:deck_data) do
@@ -102,8 +115,43 @@ RSpec.describe Api::V1::DecksController, type: :controller do
   end
 
   describe 'PATCH#update' do
-    let(:deck) { FactoryGirl.create(:deck) }
+    before(:each) do
+      @user = FactoryGirl.create(:user)
+      session[:user_id] = @user.id
+    end
+
+    let(:deck) { FactoryGirl.create(:deck, user: @user) }
     let(:cards) { FactoryGirl.create_list(:card, 5, deck: deck) }
+
+    context 'user is not signed in' do
+      it 'responds with 403' do
+        session[:user_id] = nil
+        deck_data = {
+          deck: {
+            name: 'deck name',
+            description: 'deck description'
+          }
+        }
+        patch :update, params: { id: deck.id }, body: deck_data.to_json
+        expect(response.status).to eq 403
+      end
+    end
+
+    context 'user is not deck creator' do
+      it 'responds with 403' do
+        other_user = FactoryGirl.create(:user)
+        session[:user_id] = other_user.id
+        deck_data = {
+          deck: {
+            name: 'deck name',
+            description: 'deck description'
+          }
+        }
+        patch :update, params: { id: deck.id }, body: deck_data.to_json
+        expect(response.status).to eq 403
+      end
+    end
+
     context 'updating name and description' do
       let(:deck_data) do
         {

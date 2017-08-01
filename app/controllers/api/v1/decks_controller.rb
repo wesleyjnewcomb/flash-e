@@ -5,6 +5,9 @@ class Api::V1::DecksController < ApplicationController
   end
 
   def create
+    unless current_user
+      return render json: { errors: 'Must sign in' }, status: 403
+    end
     data = JSON.parse(request.body.read)
     @new_deck = Deck.new(
       user: current_user,
@@ -20,7 +23,14 @@ class Api::V1::DecksController < ApplicationController
   end
 
   def update
+    unless current_user
+      return render json: { errors: 'Must sign in' }, status: 403
+    end
+
     @deck = Deck.find(params[:id])
+    unless @deck.user == current_user
+      return render json: { errors: 'User is not deck creator' }, status: 403
+    end
     data = JSON.parse(request.body.read)['deck']
     errors = []
     @deck.name = data['name'] if data.has_key?('name')
