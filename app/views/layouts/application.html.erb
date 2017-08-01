@@ -1,23 +1,46 @@
 <!DOCTYPE html>
-<html>
+<html lang='en'>
   <head>
     <title>Flash-E</title>
-    <%= csrf_meta_tags %>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    <%= csrf_meta_tags %>
     <%= stylesheet_link_tag    'application', media: 'all' %>
+    <%= javascript_include_tag "vendor/modernizr" %>
     <%= javascript_include_tag 'application' %>
+    <%= javascript_pack_tag 'application' %>
   </head>
 
   <body>
-    <div>
-      <% if current_user %>
-        Signed in as <strong><%= current_user.name %></strong>
-        <%= image_tag current_user.image %>!
-        <%= link_to "Sign out", signout_path, id: "sign_out" %>
-      <% else %>
-        <%= link_to "Sign in with Google", "/auth/google_oauth2", id: "sign_in" %>
-      <% end %>
-    </div>
+    <nav class='top-bar' data-topbar role="navigation">
+      <ul class="title-area">
+        <li class="name">
+          <h1><a href="/">Flash-E</a></h1>
+        </li>
+         <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+        <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+      </ul>
+      <section class='top-bar-section'>
+        <ul class='right'>
+          <% if current_user %>
+          <li class='has-dropdown'>
+            <a href='#'>Signed in as <strong><%= current_user.name %></strong>!
+              <%= image_tag current_user.image %>
+            </a>
+            <ul class='dropdown'>
+              <li><%= link_to "Profile" %></li>
+              <li><%= link_to "Sign out", signout_path, id: "sign_out" %></li>
+            </ul>
+          </li>
+          <% else %>
+          <li>
+            <%= link_to "Sign in with Google", "/auth/google_oauth2", id: "sign_in" %>
+          </li>
+          <% end %>
+        </ul>
+      </section>
+    </nav>
     <%= yield %>
   </body>
 </html>

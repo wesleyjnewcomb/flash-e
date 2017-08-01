@@ -6,5 +6,17 @@
 //
 // To reference this file, add <%= javascript_pack_tag 'application' %> to the appropriate
 // layout file, like app/views/layouts/application.html.erb
+import React from 'react'
+import ReactDOM from 'react-dom'
 
 console.log('Hello World from Webpacker')
+
+document.addEventListener('DOMContentLoaded', () => {
+  const appDiv = document.getElementById('app')
+  if(appDiv) {
+    ReactDOM.render(
+      <h1>Hello, world</h1>,
+      appDiv,
+    )
+  }
+})

@@ -3,8 +3,9 @@ ruby '2.3.3'
 
 gem 'active_model_serializers'
 gem 'dotenv-rails', '~> 2.1', '>= 2.1.1'
+gem 'foundation-rails'
 gem 'jquery-rails'
-gem "omniauth-google-oauth2", "~> 0.2.1"
+gem 'omniauth-google-oauth2', '~> 0.2.1'
 gem 'pg', '~> 0.18'
 gem 'puma', '~> 3.0'
 gem 'rails', '>= 5.1'
