@@ -100,4 +100,140 @@ RSpec.describe Api::V1::DecksController, type: :controller do
       end
     end
   end
+
+  describe 'PATCH#update' do
+    let(:deck) { FactoryGirl.create(:deck) }
+    let(:cards) { FactoryGirl.create_list(:card, 5, deck: deck) }
+    context 'updating name and description' do
+      let(:deck_data) do
+        {
+          deck: {
+            name: 'new name',
+            description: 'new description'
+          }
+        }
+      end
+
+      let(:bad_deck_data) do
+        {
+          deck: {
+            name: nil,
+            description: 'new description'
+          }
+        }
+      end
+
+      it 'updates the name and description' do
+        id = deck.id
+        patch :update, params: { id: id }, body: deck_data.to_json
+        expect(response.status).to eq 200
+        deck = Deck.find(id)
+        expect(deck.name).to eq deck_data[:deck][:name]
+        expect(deck.description).to eq deck_data[:deck][:description]
+      end
+
+      it 'does not update with bad data' do
+        id = deck.id
+        patch :update, params: { id: id }, body: bad_deck_data.to_json
+        expect(response.status).to eq 422
+      end
+    end
+
+    context 'adding cards' do
+      let(:deck_data) do
+        {
+          deck: {
+            newCards: [
+              { side1: 'new card 1 side 1', side2: 'new card 1 side 2' },
+              { side1: 'new card 2 side 1', side2: 'new card 2 side 2' }
+            ]
+          }
+        }
+      end
+
+      let(:bad_deck_data) do
+        {
+          deck: {
+            newCards: [
+              { side1: '', side2: 'new card 1 side 2' },
+              { side1: 'new card 2 side 1', side2: 'new card 2 side 2' }
+            ]
+          }
+        }
+      end
+
+      it 'creates new cards' do
+        id = deck.id
+        expect do
+          patch :update, params: { id: id }, body: deck_data.to_json
+        end.to change { Card.count }.by 2
+      end
+
+      it 'creates the correct cards' do
+        patch :update, params: { id: deck.id }, body: deck_data.to_json
+
+        expect(Card.exists?(
+          side1: 'new card 1 side 1',
+          side2: 'new card 1 side 2'
+        )).to eq true
+        expect(Card.exists?(
+          side1: 'new card 2 side 1',
+          side2: 'new card 2 side 2'
+        )).to eq true
+      end
+
+      it 'does not create any cards if the data is invalid' do
+        expect do
+          patch :update, params: { id: deck.id }, body: bad_deck_data.to_json
+        end.to change { Card.count }.by 0
+
+        returned_json = JSON.parse(response.body)
+        expect(response.status).to eq 422
+        expect(returned_json['errors']).to include('Invalid new card data')
+      end
+    end
+
+    context 'updating cards' do
+      let(:deck_data) do
+        {
+          deck: {
+            cards: [
+              { id: cards[0].id, side1: 'side 1', side2: 'side 2' },
+              { id: cards[2].id, side1: 'side 1', side2: 'side 2' }
+            ]
+          }
+        }
+      end
+
+      it 'updates cards' do
+        cards
+        expect do
+          patch :update, params: { id: deck.id }, body: deck_data.to_json
+        end.to change { Card.count }.by 0
+        updated_card1 = Card.find(deck_data[:deck][:cards][0][:id])
+        updated_card2 = Card.find(deck_data[:deck][:cards][1][:id])
+
+        expect(updated_card1.side1).to eq 'side 1'
+        expect(updated_card1.side2).to eq 'side 2'
+        expect(updated_card2.side1).to eq 'side 1'
+        expect(updated_card2.side2).to eq 'side 2'
+      end
+
+      it 'does not update cards if the data is invalid' do
+        bad_deck_data = {
+          deck: {
+            cards: [
+              { id: cards[0].id, side1: '', side2: 'side 2' },
+              { id: cards[2].id, side1: 'side 1', side2: 'side 2' }
+            ]
+          }
+        }
+        patch :update, params: { id: deck.id }, body: bad_deck_data.to_json
+
+        returned_json = JSON.parse(response.body)
+        expect(response.status).to eq 422
+        expect(returned_json['errors']).to include('Invalid card data')
+      end
+    end
+  end
 end
