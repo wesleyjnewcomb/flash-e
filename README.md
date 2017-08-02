@@ -2,7 +2,7 @@
 
 ![Build Status](https://codeship.com/projects/ceb50510-55fb-0135-6879-3a589c61106a/status?branch=master)
 ![Code Climate](https://codeclimate.com/github/wesleyjnewcomb/flash-e.png)
-![Coverage Status](https://coveralls.io/repos/wesleyjnewcomb/flash-e/badge.png)
+![Coverage Status](https://coveralls.io/repos/github/wesleyjnewcomb/flash-e/badge.png)
 
 This README would normally document whatever steps are necessary to get the
 application up and running.
