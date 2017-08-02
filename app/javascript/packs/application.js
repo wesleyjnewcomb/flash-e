@@ -9,13 +9,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-console.log('Hello World from Webpacker')
+import App from '../react/src/App'
 
 document.addEventListener('DOMContentLoaded', () => {
   const appDiv = document.getElementById('app')
   if(appDiv) {
     ReactDOM.render(
-      <h1>Hello, world</h1>,
+      <App />,
       appDiv,
     )
   }
