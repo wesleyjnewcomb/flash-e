@@ -5,7 +5,12 @@ class Deck < ApplicationRecord
 
   def create_cards(card_data_array)
     cards = card_data_array.map do |card_data|
-      Card.new(card_data.merge(deck: self))
+      attributes = {
+        deck: self,
+        side1: card_data['side1'],
+        side2: card_data['side2']
+      }
+      Card.new(attributes)
     end
 
     cards.each do |card|

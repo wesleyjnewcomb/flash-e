@@ -1,8 +1,11 @@
 import React from 'react';
 
+import DeckBuilder from './containers/DeckBuilder'
+
 const App = props => {
+  let match = { params: { id: 3 } }
   return(
-    <h1>Hello World</h1>
+    <DeckBuilder match={match}/>
   )
 }
 
