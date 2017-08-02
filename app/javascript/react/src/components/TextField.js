@@ -7,7 +7,7 @@ const TextField = ({ label, placeholder, name, value, onChange }) => {
   }
   return (
     <div>
-      {label}
+      {labelElement}
       <input type='text'
         placeholder={placeholder}
         name={name}
