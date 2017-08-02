@@ -1,4 +1,6 @@
 class Api::V1::DecksController < ApplicationController
+  skip_before_action :verify_authenticity_token
+
   def index
     @decks = Deck.all
     render json: @decks, adapter: :json

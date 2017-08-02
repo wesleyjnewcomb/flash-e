@@ -9,14 +9,9 @@ export default class DeckBuilder extends Component {
     super(props)
     // sample data for now
     this.state = {
-      name: 'HTTP Response Codes',
-      description: 'Deck description',
-      cards: [
-        { id: 1, side1: '200', side2: 'OK' },
-        { id: 2, side1: '403', side2: 'Forbidden' },
-        { id: 3, side1: '404', side2: 'Not Found' },
-        { id: 4, side1: '500', side2: 'Internal server error' }
-      ],
+      name: '',
+      description: '',
+      cards: [],
       deletedCards: [],
       nextNewId: -1
     }
@@ -28,21 +23,27 @@ export default class DeckBuilder extends Component {
   }
 
   componentDidMount() {
-    // fetch('/api/v1/decks/1')
-    // .then(response => {
-    //   if(response.ok) {
-    //     return response.json()
-    //   }
-    // })
-    // .then(response => {
-    //   this.setState(response.deck)
-    // })
+    fetch(`/api/v1/decks/${this.props.match.params.id}`)
+    .then(response => {
+      if(response.ok) {
+        return response.json()
+      }
+    })
+    .then(response => {
+      let { name, description, cards } = response.deck
+      this.setState({
+        name: name,
+        description: description,
+        cards: cards
+      })
+    })
   }
 
   preparePayload() {
     let cards = this.state.cards.filter(card => card.id > 0)
     let newCards = this.state.cards.filter(card => card.id < 0)
     let deletedCards = this.state.deletedCards.filter(card => card.id > 0)
+    let deletedCardIds = deletedCards.map(card => card.id)
 
     let payload = {
       deck: {
@@ -50,16 +51,37 @@ export default class DeckBuilder extends Component {
         description: this.state.description,
         cards: cards,
         newCards: newCards,
-        deleteCard: deletedCards
+        deletedCards: deletedCardIds
       }
     }
-
     return payload
   }
 
   saveDeck() {
     let payload = this.preparePayload()
-    //////////
+    fetch(`/api/v1/decks/${this.props.match.params.id}`,{
+      method: 'PATCH',
+      credentials: 'same-origin',
+      body: JSON.stringify(payload)
+    })
+    .then(response => {
+      if (response.ok) {
+        return response.json()
+      } else {
+        alert('ERROR')
+      }
+    })
+    .then(response => {
+      let { name, description, cards } = response.deck
+      this.setState({
+        name: name,
+        description: description,
+        cards: cards,
+        deletedCards: [],
+        nextNewId: -1
+      })
+      alert('Deck has been saved')
+    })
   }
 
   handleChange(e) {
@@ -125,10 +147,17 @@ export default class DeckBuilder extends Component {
         </div>
         <br/>
         {cardTiles}
-        <div className='text-center'>
-          <button className='button tiny success round' onClick={this.addCard}>
-            <i className="fa fa-plus" aria-hidden="true"></i>
-          </button>
+        <div className='row'>
+          <div className='small-6 columns'>
+            <button className='button tiny success round' onClick={this.addCard}>
+              <i className="fa fa-plus" aria-hidden="true"></i> Add Card
+            </button>
+          </div>
+          <div className='small-6 columns text-right'>
+            <button className='button small radius' onClick={this.saveDeck}>
+              <i className="fa fa-save" aria-hidden="true"></i> Save
+            </button>
+          </div>
         </div>
       </div>
     )
