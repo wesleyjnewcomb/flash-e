@@ -4,6 +4,14 @@ class Api::V1::DecksController < ApplicationController
     render json: @decks, adapter: :json
   end
 
+  def show
+    unless Deck.exists?(params[:id])
+      return render json: { errors: 'Deck not found' }, status: 404
+    end
+    @deck = Deck.find(params[:id])
+    render json: @deck, adapter: :json
+  end
+
   def create
     unless current_user
       return render json: { errors: 'Must sign in' }, status: 403
@@ -25,6 +33,10 @@ class Api::V1::DecksController < ApplicationController
   def update
     unless current_user
       return render json: { errors: 'Must sign in' }, status: 403
+    end
+
+    unless Deck.exists?(params[:id])
+      return render json: { errors: 'Deck not found' }, status: 404
     end
 
     @deck = Deck.find(params[:id])

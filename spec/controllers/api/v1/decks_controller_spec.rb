@@ -41,6 +41,54 @@ RSpec.describe Api::V1::DecksController, type: :controller do
     end
   end
 
+  describe 'GET#show' do
+    let!(:deck) { FactoryGirl.create(:deck) }
+    let!(:more_decks) { FactoryGirl.create_list(:deck, 4)}
+
+    it 'renders the data of a deck' do
+      get :show, params: { id: deck.id }
+      returned_json = JSON.parse(response.body)
+      expect(response.status).to eq 200
+      expect(response.content_type).to eq 'application/json'
+
+      expect(returned_json).to be_a Hash
+      expect(returned_json['deck'].length).to eq 5
+    end
+
+    it 'provides the name and description of the deck' do
+      get :show, params: { id: deck.id }
+      returned_json = JSON.parse(response.body)
+      expect(response.status).to eq 200
+      expect(response.content_type).to eq 'application/json'
+
+      expect(returned_json['deck']).to be_a Hash
+      expect(returned_json['deck']['name']).to eq deck.name
+      expect(returned_json['deck']['description']).to eq deck.description
+    end
+
+    it 'renders the card info for the deck' do
+      cards = FactoryGirl.create_list(:card, 3, deck: deck)
+      get :show, params: { id: deck.id }
+      returned_json = JSON.parse(response.body)
+      expect(response.status).to eq 200
+      expect(response.content_type).to eq 'application/json'
+
+      expect(returned_json['deck']['cards']).to be_a Array
+      returned_json['deck']['cards'].each_with_index do |card, i|
+        expect(card['id']).to eq cards[i].id
+        expect(card['side1']).to eq cards[i].side1
+        expect(card['side2']).to eq cards[i].side2
+      end
+    end
+
+    it 'responds with 404 if it cannot find the deck' do
+      get :show, params: { id: 1 }
+      returned_json = JSON.parse(response.body)
+      expect(response.status).to eq 404
+      expect(returned_json['errors']).to include('Deck not found')
+    end
+  end
+
   describe 'POST#create' do
     before(:each) do
       @user = FactoryGirl.create(:user)
@@ -150,6 +198,19 @@ RSpec.describe Api::V1::DecksController, type: :controller do
         patch :update, params: { id: deck.id }, body: deck_data.to_json
         expect(response.status).to eq 403
       end
+    end
+
+    it 'responds with 404 if it cannot find the deck' do
+      deck_data = {
+        deck: {
+          name: 'deck name',
+          description: 'deck description'
+        }
+      }
+      patch :update, params: { id: 1 }, body: deck_data.to_json
+      returned_json = JSON.parse(response.body)
+      expect(response.status).to eq 404
+      expect(returned_json['errors']).to include('Deck not found')
     end
 
     context 'updating name and description' do
