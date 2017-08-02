@@ -20,7 +20,7 @@ export default class DeckBuilder extends Component {
       deletedCards: [],
       nextNewId: -1
     }
-
+    this.handleChange = this.handleChange.bind(this)
     this.addCard = this.addCard.bind(this)
     this.editCard = this.editCard.bind(this)
     this.deleteCard = this.deleteCard.bind(this)
@@ -62,8 +62,8 @@ export default class DeckBuilder extends Component {
     //////////
   }
 
-  handleChange(value) {
-
+  handleChange(e) {
+    this.setState({ [e.target.name]: e.target.value })
   }
 
   addCard(e) {
