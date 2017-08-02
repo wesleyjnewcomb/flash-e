@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import update from 'react-addons-update';
 
 import EditCardTile from '../components/EditCardTile'
+import TextField from '../components/TextField'
 
 export default class DeckBuilder extends Component {
   constructor(props) {
@@ -23,6 +24,7 @@ export default class DeckBuilder extends Component {
     this.addCard = this.addCard.bind(this)
     this.editCard = this.editCard.bind(this)
     this.deleteCard = this.deleteCard.bind(this)
+    this.saveDeck = this.saveDeck.bind(this)
   }
 
   componentDidMount() {
@@ -35,6 +37,33 @@ export default class DeckBuilder extends Component {
     // .then(response => {
     //   this.setState(response.deck)
     // })
+  }
+
+  preparePayload() {
+    let cards = this.state.cards.filter(card => card.id > 0)
+    let newCards = this.state.cards.filter(card => card.id < 0)
+    let deletedCards = this.state.deletedCards.filter(card => card.id > 0)
+
+    let payload = {
+      deck: {
+        name: this.state.name,
+        description: this.state.description,
+        cards: cards,
+        newCards: newCards,
+        deleteCard: deletedCards
+      }
+    }
+
+    return payload
+  }
+
+  saveDeck() {
+    let payload = this.preparePayload()
+    //////////
+  }
+
+  handleChange(value) {
+
   }
 
   addCard(e) {
@@ -70,9 +99,10 @@ export default class DeckBuilder extends Component {
   }
 
   render() {
-    let cardTiles = this.state.cards.map(card => {
+    let cardTiles = this.state.cards.map((card, i) => {
       return (
         <EditCardTile key={card.id}
+          index={i}
           cardData={card}
           onChange={this.editCard}
           onDelete={this.deleteCard}
@@ -81,7 +111,19 @@ export default class DeckBuilder extends Component {
     })
     return (
       <div>
-        Deck Builder
+        <h1 className='text-center'>Deck Builder</h1>
+        <div className='row'>
+          <div className='panel small-10 small-centered columns'>
+            <TextField
+              label='Deck Name'
+              placeholder='Deck Name'
+              name='name'
+              value={this.state.name}
+              onChange={this.handleChange}
+            />
+          </div>
+        </div>
+        <br/>
         {cardTiles}
         <div className='text-center'>
           <button className='button tiny success round' onClick={this.addCard}>

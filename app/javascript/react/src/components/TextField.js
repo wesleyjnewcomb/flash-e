@@ -1,16 +1,20 @@
 import React from 'react'
 
-const TextField = ({ placeholder, name, value, onChange }) => {
-  let editField = e => {
-    onChange(e.target.value)
+const TextField = ({ label, placeholder, name, value, onChange }) => {
+  let labelElement;
+  if (label) {
+    labelElement = <label htmlFor={name}>{label}</label>
   }
   return (
-    <input type='text'
-      placeholder={placeholder}
-      name={name}
-      value={value}
-      onChange={editField}
-    />
+    <div>
+      {label}
+      <input type='text'
+        placeholder={placeholder}
+        name={name}
+        value={value}
+        onChange={onChange}
+      />
+    </div>
   )
 }
 
