@@ -15,7 +15,7 @@ describe('TextField', () => {
     description: description,
     cards: [
       { id: 1, side1: 'card 1 side 1', side2: 'card 1 side 2'},
-      { id: 2, side2: 'card 2 side 1', side2: 'card 2 side 2'}
+      { id: 2, side1: 'card 2 side 1', side2: 'card 2 side 2'}
     ]
   }
   DeckTile.contextTypes = {
