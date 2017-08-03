@@ -1,0 +1,61 @@
+.deck-tile {
+  padding: 1em;
+  margin-bottom: 1em;
+  background: #FF785C;
+  border: 1.2px solid #E04A00;
+  border-radius: 4px;
+  box-shadow: 2px 2px 3px #caa;
+}
+
+.deck-tile h2 {
+  font-size: 1.4rem;
+  color: white;
+  cursor: pointer;
+}
+
+.deck-tile h2 a {
+  margin-bottom: 2em;
+}
+
+.deck-tile .card-section {
+  width: 100%;
+  background: #ffffff;
+  max-height: 15.5em;
+  overflow: scroll;
+  border-radius: 2px;
+}
+
+.card-section table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.card-section th {
+  background: #FFAD9C;
+  border-bottom: 1px solid #FF785C;
+}
+
+.card-section th.side1 {
+  text-align: right;
+  border-right: 1px solid #FF785C;
+}
+
+.card-tile {
+  background: #ffffff;
+  // background: -moz-linear-gradient(bottom, #edd 0%, #ffffff 100%);
+  // background: -webkit-linear-gradient(bottom, #edd 0%,#ffffff 100%);
+  // background: linear-gradient(to top, #edd 0%,#ffffff 100%);
+}
+
+.card-tile .side1 {
+  text-align: right;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  border-bottom: 1px solid #FF785C;
+  border-right: 1px solid #FF785C;
+}
+.card-tile .side2 {
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  border-bottom: 1px solid #FF785C;
+}
