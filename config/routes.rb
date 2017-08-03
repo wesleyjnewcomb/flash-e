@@ -6,13 +6,18 @@ Rails.application.routes.draw do
   resources :sessions, only: [:create, :destroy]
 
   get '/decks', to: 'static_pages#show'
-  get '/decks/:id/edit', to: 'static_pages#show' 
+  get '/decks/:id/edit', to: 'static_pages#show'
 
   resource :static_pages, only: [:show]
 
   namespace :api do
     namespace :v1 do
       resources :decks, only: [:index, :show, :create, :update]
+      resources :users do
+        collection do
+          get 'current'
+        end
+      end
     end
   end
 
