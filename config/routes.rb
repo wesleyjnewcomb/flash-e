@@ -1,12 +1,14 @@
 Rails.application.routes.draw do
-  get 'home/show'
-
   get 'auth/:provider/callback', to: 'sessions#create'
   get 'auth/failure', to: redirect('/')
   get 'signout', to: 'sessions#destroy', as: 'signout'
 
   resources :sessions, only: [:create, :destroy]
-  resource :home, only: [:show]
+
+  get '/decks', to: 'static_pages#show'
+  get '/decks/:id/edit', to: 'static_pages#show' 
+
+  resource :static_pages, only: [:show]
 
   namespace :api do
     namespace :v1 do
@@ -14,5 +16,5 @@ Rails.application.routes.draw do
     end
   end
 
-  root to: "home#show"
+  root to: "static_pages#show"
 end
