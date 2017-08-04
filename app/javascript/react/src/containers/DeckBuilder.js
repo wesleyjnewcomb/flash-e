@@ -7,7 +7,7 @@ import TextField from '../components/TextField'
 export default class DeckBuilder extends Component {
   constructor(props) {
     super(props)
-    // sample data for now
+
     this.state = {
       name: '',
       description: '',
