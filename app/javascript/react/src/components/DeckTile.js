@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 
+import CardSection from './CardSection'
+
 class DeckTile extends Component {
   constructor(props) {
     super(props)
@@ -16,33 +18,27 @@ class DeckTile extends Component {
   }
 
   render() {
+    let currentUser = this.props.currentUser
     let deck = this.props.deck
+    let cards = deck.cards
     let cardSection, caretClass, caret
+
     if (this.state.showingCards) {
-      let cardTiles = deck.cards.map(card => {
-        return (
-          <tr key={card.id} className='card-tile'>
-            <td className='small-6 columns side1'>{card.side1}</td>
-            <td className='small-6 columns side2'>{card.side2}</td>
-          </tr>
-        )
-      })
-      cardSection = (
-        <div className='card-section'>
-          <table>
-            <tr>
-              <th className='small-6 columns side1'>Side 1</th>
-              <th className='small-6 columns side2'>Side 2</th>
-            </tr>
-            {cardTiles}
-          </table>
-        </div>
-      )
+      cardSection = <CardSection cards={cards} />
       caretClass = "fa fa-chevron-circle-down"
     } else {
       caretClass = "fa fa-chevron-circle-right"
     }
     caret = <i className={caretClass} aria-hidden="true"></i>
+
+    let editButton
+    if (currentUser && currentUser.id === deck.user.id) {
+      editButton = (
+        <Link to={`/decks/${deck.id}/edit`} className="button radius tiny">
+          <i className="fa fa-pencil-square-o" aria-hidden="true"></i>
+        </Link>
+      )
+    }
     return (
       <div className='deck-tile'>
         <h2 onClick={this.toggleShowCards}>
@@ -51,9 +47,7 @@ class DeckTile extends Component {
           </div>
           {deck.name}
           <div className='right'>
-            <Link to={`/decks/${deck.id}/edit`} className="button radius tiny">
-              <i className="fa fa-pencil-square-o" aria-hidden="true"></i>
-            </Link>
+            {editButton}
           </div>
         </h2>
         {cardSection}
