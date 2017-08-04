@@ -7,6 +7,7 @@ Rails.application.routes.draw do
 
   get '/decks', to: 'static_pages#show'
   get '/decks/:id/edit', to: 'static_pages#show'
+  get '/decks/:id/practice', to: 'static_pages#show'
 
   resource :static_pages, only: [:show]
 
