@@ -60,7 +60,7 @@ class DeckFormContainer extends Component {
             />
           </div>
           <div className='small-2 columns'>
-            <input type='submit' className='button small' />
+            <input type='submit' className='button tiny' />
           </div>
         </div>
       </form>
