@@ -16,7 +16,7 @@ const EditCardTile = ({ cardData, onChange, onDelete }) => {
   }
 
   return (
-    <div className='row collapse medium-uncollapse'>
+    <div className='panel secondary row collapse medium-uncollapse'>
       <div className='hide-for-small-only medium-2 large-1 columns text-right'>
         <i className="fa fa-chevron-up" aria-hidden="true"></i><br/>
         <i className="fa fa-chevron-down" aria-hidden="true"></i>
@@ -46,7 +46,6 @@ const EditCardTile = ({ cardData, onChange, onDelete }) => {
           <i className="fa fa-trash-o" aria-hidden="true"></i>
         </button>
       </div>
-      <hr/>
     </div>
   )
 }
