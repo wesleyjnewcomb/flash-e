@@ -1,0 +1,17 @@
+$card-height: 24rem;
+
+.practice-card {
+  margin: auto;
+  padding-top: $card-height * 0.4;
+  width: $card-height * 5/3;
+  height: $card-height;
+  font-size: $card-height / 6;
+  background: white;
+  border: 1.5px solid #968;
+  border-radius: 16px;
+  box-shadow: 2px 2px 6px rgba(0,0,0,0.5);
+}
+
+.practice-card h2 {
+  font-size: 1em;
+}
