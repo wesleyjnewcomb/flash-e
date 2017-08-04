@@ -2,10 +2,8 @@
   "name": "flash-e",
   "private": true,
   "scripts": {
-    "heroku-postbuild": "NODE_ENV=production ./bin/webpack -- -p",
     "test": "karma start",
-    "start": "./bin/webpack-dev-server",
-    "webpack": "node_modules/.bin/webpack --config ./react/webpack.config.js"
+    "start": "./bin/webpack-dev-server"
   },
   "dependencies": {
     "autoprefixer": "^7.1.2",
