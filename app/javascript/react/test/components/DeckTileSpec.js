@@ -4,9 +4,10 @@ import jasmineEnzyme from 'jasmine-enzyme'
 import createRouterContext from 'react-router-test-context'
 
 import DeckTile from '../../src/components/DeckTile'
+import CardSection from '../../src/components/CardSection'
 
-describe('TextField', () => {
-  let deck, wrapper
+describe('DeckTile', () => {
+  let wrapper
   let name = 'Deck Name'
   let description = 'Deck description'
   let deckData = {
@@ -33,10 +34,14 @@ describe('TextField', () => {
     expect(wrapper.find('h2')).toIncludeText(name)
   })
   it('should not render the cards at first', () => {
-    expect(wrapper.find('table')).not.toBePresent()
+    expect(wrapper.find(CardSection)).not.toBePresent()
   })
   it('should render the cards if showingCards is true in state', () => {
     wrapper.setState({ showingCards: true })
-    expect(wrapper.find('table')).toBePresent()
+    expect(wrapper.find(CardSection)).toBePresent()
+  })
+  it('should pass the correct props to CardSection', () => {
+    wrapper.setState({ showingCards: true })
+    expect(wrapper.find(CardSection).props()).toEqual({ cards: deckData.cards })
   })
 })
