@@ -65,13 +65,12 @@ export default class DeckPracticeContainer extends Component {
     let clickMethod = this.state.flipped ? this.nextCard : this.flipCard
     return (
       <div className='deck-practice'>
-        <div className='small-centered columns'>
-          <PracticeCard
-            card={card}
-            flipped={this.state.flipped}
-            onClick={clickMethod}
-          />
-        </div>
+        <h2 className='text-center'>Practice</h2>
+        <PracticeCard
+          card={card}
+          flipped={this.state.flipped}
+          onClick={clickMethod}
+        />
       </div>
     )
   }
