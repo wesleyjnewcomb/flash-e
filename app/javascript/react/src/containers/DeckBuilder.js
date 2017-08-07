@@ -147,6 +147,7 @@ export default class DeckBuilder extends Component {
         </div>
         <br/>
         {cardTiles}
+        <br/>
         <div className='row'>
           <div className='small-6 columns'>
             <button className='button tiny success round' onClick={this.addCard}>
