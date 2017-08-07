@@ -5,9 +5,9 @@ const PracticeCard = ({ card, flipped, onClick }) => {
   return (
     <div className='card-container small-centered column'>
       <div className='practice-card' onClick={onClick}>
-        <div className='text'>
+        <p className='text'>
           {body}
-        </div>
+        </p>
       </div>
     </div>
   )
