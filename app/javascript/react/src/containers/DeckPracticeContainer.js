@@ -23,6 +23,7 @@ export default class DeckPracticeContainer extends Component {
 
   componentDidMount() {
     window.addEventListener('keydown', this.parseKeyPress)
+
     fetch(`/api/v1/decks/${this.props.match.params.id}`)
     .then(response => {
       if(response.ok) {
@@ -55,6 +56,10 @@ export default class DeckPracticeContainer extends Component {
     })
   }
 
+  reset() {
+    this.setState({ practiceSet: this.state.cards })
+  }
+
   previousCard() {
     if(this.state.currentCard === 0) {
       return
@@ -68,7 +73,7 @@ export default class DeckPracticeContainer extends Component {
   }
 
   nextCard() {
-    if (this.state.currentCard >= this.state.cards.length - 1) {
+    if (this.state.currentCard >= this.state.practiceSet.length - 1) {
       this.restart()
       return
     }
@@ -78,6 +83,13 @@ export default class DeckPracticeContainer extends Component {
         currentCard: prevState.currentCard + 1
       }
     })
+  }
+
+  removeCard() {
+    let newPracticeSet = this.state.practiceSet.filter((card, i) => {
+      return index !== this.state.currentCard
+    })
+    this.setState({ practiceSet: newPracticeSet })
   }
 
   parseKeyPress(e) {
@@ -93,14 +105,17 @@ export default class DeckPracticeContainer extends Component {
   }
 
   render() {
-    if (!this.state.cards.length) {
+    if (!this.state.practiceSet.length) {
       return <div />
     }
     let leftButton, rightButton
     if (this.state.currentCard > 0) {
       leftButton = (
         <li>
-          <button onClick={this.previousCard} className='tiny button'>
+          <button onClick={this.previousCard}
+            className='tiny button'
+            title='Previous card'
+          >
             <i className="fa fa-arrow-left" aria-hidden="true"></i>
           </button>
         </li>
@@ -115,10 +130,13 @@ export default class DeckPracticeContainer extends Component {
       )
     }
 
-    if (this.state.currentCard < this.state.cards.length - 1) {
+    if (this.state.currentCard < this.state.practiceSet.length - 1) {
       rightButton = (
         <li>
-          <button onClick={this.nextCard} className='tiny button'>
+          <button onClick={this.nextCard}
+            className='tiny button'
+            title='Next card'
+          >
             <i className="fa fa-arrow-right" aria-hidden="true"></i>
           </button>
         </li>
@@ -126,13 +144,16 @@ export default class DeckPracticeContainer extends Component {
     } else {
       rightButton = (
         <li>
-          <button onClick={this.restart} className='tiny button'>
+          <button onClick={this.restart}
+            className='tiny button'
+            title='Go to beginning'
+          >
             <i className="fa fa-reply-all" aria-hidden="true"></i>
           </button>
         </li>
       )
     }
-    let card = this.state.cards[this.state.currentCard]
+    let card = this.state.practiceSet[this.state.currentCard]
     return (
       <div className='deck-practice'>
         <h2 className='text-center'>Practice</h2>
@@ -146,8 +167,11 @@ export default class DeckPracticeContainer extends Component {
             <ul className='button-group round even-3'>
               {leftButton}
               <li>
-                <button onClick='' className='tiny button'>
-                  <i className="fa fa-times" aria-hidden="true"></i>
+                <button onClick=''
+                  className='tiny button'
+                  title='Remove from practice set'
+                >
+                  <i className="fa fa-eject" aria-hidden="true"></i>
                 </button>
               </li>
               {rightButton}
