@@ -11,7 +11,7 @@ class Api::V1::DecksController < ApplicationController
   end
 
   def show
-    unless Deck.exists?(params[:id])
+    unless Deck.exists?(id: params[:id])
       return render json: { errors: 'Deck not found' }, status: 404
     end
     @deck = Deck.find(params[:id])
@@ -41,7 +41,7 @@ class Api::V1::DecksController < ApplicationController
       return render json: { errors: 'Must sign in' }, status: 403
     end
 
-    unless Deck.exists?(params[:id])
+    unless Deck.exists?(id: params[:id])
       return render json: { errors: 'Deck not found' }, status: 404
     end
 
