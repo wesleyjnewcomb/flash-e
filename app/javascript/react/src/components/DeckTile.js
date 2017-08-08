@@ -47,7 +47,12 @@ class DeckTile extends Component {
           </div>
           {deck.name}
           <div className='right'>
-            {editButton}
+            {editButton}&nbsp;
+            <Link to={`/decks/${deck.id}/practice`}
+              className="button success radius tiny"
+            >
+              <i className="fa fa-play" aria-hidden="true"></i>
+            </Link>
           </div>
         </h2>
         {cardSection}
