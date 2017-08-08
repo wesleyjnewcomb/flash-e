@@ -4,10 +4,10 @@ class Api::V1::UsersController < ApplicationController
   def show
     begin
       user = User.find(params[:id])
-      render json: user, adapter: :json
     rescue ActiveRecord::RecordNotFound
-      render json: { errors: ['User not found'] }, status: 404
+      return render json: { errors: ['User not found'] }, status: 404
     end
+    render json: user, adapter: :json
   end
 
   def current
