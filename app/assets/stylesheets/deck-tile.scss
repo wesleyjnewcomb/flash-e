@@ -1,15 +1,18 @@
-.deck-tile {
+$marigold: #ffd36d;
+
+.row.deck-tile {
   padding: 1em;
   margin-bottom: 1em;
-  background: #FF785C;
-  border: 1.2px solid #E04A00;
+  background: #e7e7e7;
+  border: 1.2px solid #222222;
   border-radius: 4px;
-  box-shadow: 2px 2px 6px #866;
+  box-shadow: 2px 2px 6px rgba(0,0,0,0.5);
 }
 
 .deck-tile h2 {
   font-size: 1.4rem;
-  color: white;
+  font-family: 'Raleway';
+  color: #222222;
   cursor: pointer;
 }
 
@@ -31,13 +34,13 @@
 }
 
 .card-section th {
-  background: #FFAD9C;
-  border-bottom: 1px solid #FF785C;
+  background: scale-color($marigold, $lightness: 35%);
+  border-bottom: 1px solid $marigold;
 }
 
 .card-section th.side1 {
   text-align: right;
-  border-right: 1px solid #FF785C;
+  border-right: 1px solid $marigold;
 }
 
 .card-tile {
@@ -51,11 +54,11 @@
   text-align: right;
   padding-top: 0.5em;
   padding-bottom: 0.5em;
-  border-bottom: 1px solid #FF785C;
-  border-right: 1px solid #FF785C;
+  border-bottom: 1px solid $marigold;
+  border-right: 1px solid $marigold;
 }
 .card-tile .side2 {
   padding-top: 0.5em;
   padding-bottom: 0.5em;
-  border-bottom: 1px solid #FF785C;
+  border-bottom: 1px solid $marigold;
 }

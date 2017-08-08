@@ -40,7 +40,7 @@ class DeckTile extends Component {
       )
     }
     return (
-      <div className='deck-tile'>
+      <div className='row deck-tile'>
         <h2 onClick={this.toggleShowCards}>
           <div className='left'>
             {caret}&nbsp;

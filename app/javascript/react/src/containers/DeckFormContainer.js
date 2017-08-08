@@ -51,7 +51,7 @@ class DeckFormContainer extends Component {
       <form className='deck-form' onSubmit={this.onSubmit}>
         <h3>Add New Deck</h3>
         <div className='row'>
-          <div className='small-10 columns'>
+          <div className='small-8 large-10 columns'>
             <TextField
               placeholder='New Deck Name'
               name='name'
@@ -59,7 +59,7 @@ class DeckFormContainer extends Component {
               onChange={this.onChange}
             />
           </div>
-          <div className='small-2 columns'>
+          <div className='small-4 large-2 columns'>
             <input type='submit' className='button tiny' />
           </div>
         </div>
