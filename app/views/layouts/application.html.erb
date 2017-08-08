@@ -30,7 +30,7 @@
               <%= image_tag current_user.image, class: 'avatar' %>
             </a>
             <ul class='dropdown'>
-              <li><%= link_to "Profile" %></li>
+              <li><%= link_to "Profile", "/users/#{current_user.id}" %></li>
               <li><%= link_to "Sign out", signout_path, id: "sign_out" %></li>
             </ul>
           </li>
