@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
+import { Redirect } from 'react-router-dom'
 import update from 'react-addons-update';
+import swal from 'sweetalert'
 
 import EditCardTile from '../components/EditCardTile'
 import TextField from '../components/TextField'
@@ -13,7 +15,8 @@ export default class DeckBuilder extends Component {
       description: '',
       cards: [],
       deletedCards: [],
-      nextNewId: -1
+      nextNewId: -1,
+      redirect: null
     }
     this.handleChange = this.handleChange.bind(this)
     this.addCard = this.addCard.bind(this)
@@ -39,6 +42,20 @@ export default class DeckBuilder extends Component {
     })
   }
 
+  validateDeck() {
+    for(let card of this.state.cards) {
+      if (card.side1.trim() === '' || card.side2.trim() === '') {
+        swal('Save Error','Could not save: one or more card sides are blank.','error')
+        return false
+      }
+    }
+    if (this.state.name.trim() === '') {
+      swal('Save Error','Could not save: deck name is blank.','error')
+      return false
+    }
+    return true
+  }
+
   preparePayload() {
     let cards = this.state.cards.filter(card => card.id > 0)
     let newCards = this.state.cards.filter(card => card.id < 0)
@@ -58,6 +75,9 @@ export default class DeckBuilder extends Component {
   }
 
   saveDeck() {
+    if (!this.validateDeck()) {
+      return
+    }
     let payload = this.preparePayload()
     fetch(`/api/v1/decks/${this.props.match.params.id}`,{
       method: 'PATCH',
@@ -68,7 +88,7 @@ export default class DeckBuilder extends Component {
       if (response.ok) {
         return response.json()
       } else {
-        alert('ERROR')
+        swal('Error',`The server responded with ${response.status}.`,'error')
       }
     })
     .then(response => {
@@ -80,7 +100,21 @@ export default class DeckBuilder extends Component {
         deletedCards: [],
         nextNewId: -1
       })
-      alert('Deck has been saved')
+      swal({
+        title: "Deck Saved!",
+        text: "Your deck has been saved!\n\
+        Would you like to practice this deck?",
+        type: "success",
+        showCancelButton: true,
+        confirmButtonColor: "#AC0057",
+        confirmButtonText: "Go to Practice",
+        cancelButtonText: "Stay Here",
+      },
+      (isConfirm) => {
+        if (isConfirm) {
+          this.setState({ redirect: `/decks/${response.deck.id}/practice` })
+        }
+      })
     })
   }
 
@@ -121,6 +155,9 @@ export default class DeckBuilder extends Component {
   }
 
   render() {
+    if (this.state.redirect) {
+      return <Redirect to={this.state.redirect} />
+    }
     let cardTiles = this.state.cards.map((card, i) => {
       return (
         <EditCardTile key={card.id}
