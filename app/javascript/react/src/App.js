@@ -7,6 +7,7 @@ import {
 
 import DeckIndexContainer from './containers/DeckIndexContainer'
 import DeckBuilder from './containers/DeckBuilder'
+import DeckPracticeContainer from './containers/DeckPracticeContainer'
 
 const App = props => {
   return(
@@ -14,7 +15,8 @@ const App = props => {
       <div className='page-container'>
         <Route exact path='/' component={DeckIndexContainer} />
         <Route exact path='/decks' component={DeckIndexContainer} />
-        <Route exact path='/decks/:id/edit' component={DeckBuilder} />
+        <Route path='/decks/:id/edit' component={DeckBuilder} />
+        <Route path='/decks/:id/practice' component={DeckPracticeContainer} />
       </div>
     </Router>
   )

@@ -7,7 +7,7 @@ import TextField from '../components/TextField'
 export default class DeckBuilder extends Component {
   constructor(props) {
     super(props)
-    // sample data for now
+
     this.state = {
       name: '',
       description: '',
@@ -147,6 +147,7 @@ export default class DeckBuilder extends Component {
         </div>
         <br/>
         {cardTiles}
+        <br/>
         <div className='row'>
           <div className='small-6 columns'>
             <button className='button tiny success round' onClick={this.addCard}>
