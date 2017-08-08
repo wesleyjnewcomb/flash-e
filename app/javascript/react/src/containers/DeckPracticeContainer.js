@@ -17,6 +17,8 @@ export default class DeckPracticeContainer extends Component {
       currentCard: 0,
       redirect: null
     }
+    this.rightArrow = this.rightArrow.bind(this)
+
     this.flipCard = this.flipCard.bind(this)
     this.restart = this.restart.bind(this)
     this.previousCard = this.previousCard.bind(this)
@@ -75,15 +77,26 @@ export default class DeckPracticeContainer extends Component {
   }
 
   previousCard() {
-    if(this.state.currentCard === 0) {
-      return
+    if(this.state.currentCard > 0) {
+      this.setState((prevState, props) => {
+        return {
+          flipped: false,
+          currentCard: prevState.currentCard - 1
+        }
+      })
     }
-    this.setState((prevState, props) => {
-      return {
-        flipped: false,
-        currentCard: prevState.currentCard - 1
+  }
+
+  rightArrow() {
+    if (!this.state.flipped) {
+      this.flipCard()
+    } else {
+      if (this.state.currentCard >= this.state.practiceSet.length - 1) {
+        this.finishedAlert()
+      } else {
+        this.nextCard()
       }
-    })
+    }
   }
 
   nextCard() {
@@ -115,7 +128,7 @@ export default class DeckPracticeContainer extends Component {
     const shortcuts = {
       32: this.flipCard,
       37: this.previousCard,
-      39: this.nextCard
+      39: this.rightArrow
     }
 
     if (e.keyCode in shortcuts) {
@@ -194,51 +207,66 @@ export default class DeckPracticeContainer extends Component {
       leftButton = (
         <li>
           <button onClick={this.previousCard}
-            className='tiny button'
+            className='small button'
             title='Previous card'
           >
-            <i className="fa fa-arrow-left" aria-hidden="true"></i>
+            Previous<br/><i className="fa fa-arrow-left" aria-hidden="true"></i>
           </button>
         </li>
       )
     } else {
       leftButton = (
         <li>
-          <button className='secondary disabled tiny button'>
-            <i className="fa fa-arrow-left" aria-hidden="true"></i>
+          <button className='secondary disabled small button'>
+            Previous<br/><i className="fa fa-arrow-left" aria-hidden="true"></i>
           </button>
         </li>
       )
     }
-    rightButton = (
-      <li>
-        <button onClick={this.nextCard}
-          className='tiny button'
-          title='Go to beginning'
-        >
-          <i className="fa fa-arrow-right" aria-hidden="true"></i>
-        </button>
-      </li>
-    )
+    let rightButtonIcon = this.state.flipped ? 'fa-arrow-right' : 'fa-repeat'
+    if (this.state.flipped) {
+      rightButton = (
+        <li>
+          <button onClick={this.rightArrow}
+            className='small button'
+            title='Next card'
+          >
+            Next<br/><i className="fa fa-arrow-right" aria-hidden="true"></i>
+          </button>
+        </li>
+      )
+    } else {
+      rightButton = (
+        <li>
+          <button onClick={this.rightArrow}
+            className='small button'
+            title='Flip'
+          >
+            Flip<br/><i className="fa fa-repeat" aria-hidden="true"></i>
+          </button>
+        </li>
+      )
+    }
     let card = this.state.practiceSet[this.state.currentCard]
     return (
       <div className='deck-practice'>
         <h2 className='text-center'>Practice</h2>
+        <h3 className='text-center'>{this.state.name}</h3>
         <PracticeCard
           card={card}
           flipped={this.state.flipped}
           onClick={this.flipCard}
         />
         <div className='row'>
-          <div className='small-8 medium-5 large-3 small-centered columns'>
+          <div className='small-8 medium-6 large-4 small-centered columns'>
             <ul className='button-group round even-3'>
               {leftButton}
               <li>
                 <button onClick={this.removeCard}
-                  className='tiny button'
+                  className='small button'
                   title='Remove from practice set'
                 >
-                  <i className="fa fa-eject" aria-hidden="true"></i>
+                  Remove<br/><i className="fa fa-eject" aria-hidden="true"></i>
                 </button>
               </li>
               {rightButton}
