@@ -1,12 +1,15 @@
 import React from 'react'
 
 const PracticeCard = ({ card, flipped, onClick }) => {
-  let body = flipped ? card.side2 : card.side1
+  let flippedClass = flipped ? 'flipped' : ''
   return (
-    <div className='card-container small-centered column'>
+    <div className={`card-container ${flippedClass} small-centered column`}>
       <div className='practice-card' onClick={onClick}>
-        <p className='text'>
-          {body}
+        <p className='front'>
+          {card.side1}
+        </p>
+        <p className='back'>
+          {card.side2}
         </p>
       </div>
     </div>

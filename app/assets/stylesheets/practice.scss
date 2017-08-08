@@ -1,8 +1,21 @@
 $card-width: 40rem;
+$flip-time: 1s;
 
 .card-container {
   max-width: $card-width;
   margin-bottom: 1em;
+
+  -webkit-perspective: 1000;
+  -moz-perspective: 1000;
+  -o-perspective: 1000;
+  perspective: 1000;
+}
+
+.card-container.flipped .practice-card {
+  -webkit-transform: rotateY(-180deg);
+  -moz-transform: rotateY(-180deg);
+  -o-transform: rotateY(-180deg);
+  transform: rotateY(-180deg);
 }
 
 .practice-card {
@@ -14,9 +27,21 @@ $card-width: 40rem;
   border: 1.5px solid rgba(0,0,0,0.8);
   border-radius: 16px;
   box-shadow: 2px 2px 6px rgba(0,0,0,0.5);
+
+  -webkit-transition: $flip-time;
+	-webkit-transform-style: preserve-3d;
+
+	-moz-transition: $flip-time;
+	-moz-transform-style: preserve-3d;
+
+  -o-transition: $flip-time;
+	-o-transform-style: preserve-3d;
+
+	transition: $flip-time;
+	transform-style: preserve-3d;
 }
 
-.practice-card .text {
+.practice-card .front, .practice-card .back {
   width: 100%;
   position: absolute;
   top: 0;
@@ -29,4 +54,16 @@ $card-width: 40rem;
   text-align: center;
   color: #666;
   font-size: 1.5em;
+
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -o-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.practice-card .back {
+  -webkit-transform: rotateY(180deg);
+	-moz-transform: rotateY(180deg);
+  -o-transform: rotateY(180deg);
+	transform: rotateY(180deg);
 }
