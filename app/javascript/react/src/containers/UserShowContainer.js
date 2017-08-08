@@ -24,6 +24,9 @@ class UserShowContainer extends Component {
   }
 
   render() {
+    if (!this.state.fetched) {
+      return <div></div>
+    }
     let user = this.state.user
     let deckIndexFetchPath = `/api/v1/users/${user.id}/decks`
     return (
@@ -40,7 +43,7 @@ class UserShowContainer extends Component {
           <div className='small-12 large-6 columns'>
             <DeckIndexContainer
               title={`${this.state.user.name}'s Decks`}
-              fetchPatch={deckIndexFetchPath}
+              fetchPath={deckIndexFetchPath}
               showForm={false}
             />
           </div>
