@@ -32,7 +32,7 @@ class DeckIndexContainer extends Component {
       return <DeckTile deck={deck} currentUser={this.state.currentUser} key={deck.id} />
     })
     let form
-    if (this.state.currentUser.id) {
+    if (this.state.currentUser.id && this.props.showForm) {
       form = (
         <div className='row panel radius'>
           <DeckFormContainer />
@@ -42,7 +42,7 @@ class DeckIndexContainer extends Component {
     return (
       <div className='deck-index-container'>
         {form}
-        <h1 className='text-center'>{this.props.title}</h1>
+        <h2 className='text-center'>{this.props.title}</h2>
         {deckTiles}
       </div>
     )
@@ -50,8 +50,9 @@ class DeckIndexContainer extends Component {
 }
 
 DeckIndexContainer.defaultProps = {
-  title: 'Browse Decks',
-  fetchPath: '/api/v1/decks'
+  title: 'Browse',
+  fetchPath: '/api/v1/decks',
+  showForm: true
 }
 
 export default DeckIndexContainer
