@@ -47,6 +47,10 @@ export default class DeckPracticeContainer extends Component {
     })
   }
 
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this.parseKeyPress)
+  }
+
   flipCard() {
     this.setState((prevState, props) => {
       return {
