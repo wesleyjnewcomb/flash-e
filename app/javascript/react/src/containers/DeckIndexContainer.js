@@ -16,7 +16,7 @@ class DeckIndexContainer extends Component {
   componentDidMount() {
     this.fetchCurrentUser()
 
-    fetch('/api/v1/decks')
+    fetch(this.props.fetchPath)
     .then(response => {
       if (response.ok) {
         return response.json()
@@ -42,11 +42,16 @@ class DeckIndexContainer extends Component {
     return (
       <div className='deck-index-container'>
         {form}
-        <h1 className='text-center'>Browse</h1>
+        <h1 className='text-center'>{this.props.title}</h1>
         {deckTiles}
       </div>
     )
   }
+}
+
+DeckIndexContainer.defaultProps = {
+  title: 'Browse Decks',
+  fetchPath: '/api/v1/decks'
 }
 
 export default DeckIndexContainer
