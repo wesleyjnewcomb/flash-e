@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 
   resources :sessions, only: [:create, :destroy]
 
+  get '/users/:id', to: 'static_pages#show'
   get '/decks', to: 'static_pages#show'
   get '/decks/:id/edit', to: 'static_pages#show'
   get '/decks/:id/practice', to: 'static_pages#show'
@@ -14,7 +15,8 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :decks, only: [:index, :show, :create, :update]
-      resources :users do
+      resources :users, only: [:show] do
+        resources :decks, only: [:index]
         collection do
           get 'current'
         end
