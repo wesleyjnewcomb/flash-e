@@ -5,6 +5,7 @@ import {
   Route
 } from 'react-router-dom'
 
+import UserShowContainer from './containers/UserShowContainer'
 import DeckIndexContainer from './containers/DeckIndexContainer'
 import DeckBuilder from './containers/DeckBuilder'
 import DeckPracticeContainer from './containers/DeckPracticeContainer'
@@ -14,6 +15,7 @@ const App = props => {
     <Router>
       <div className='page-container'>
         <Route exact path='/' component={DeckIndexContainer} />
+        <Route exact path='/users/:id' component={UserShowContainer} />
         <Route exact path='/decks' component={DeckIndexContainer} />
         <Route path='/decks/:id/edit' component={DeckBuilder} />
         <Route path='/decks/:id/practice' component={DeckPracticeContainer} />
