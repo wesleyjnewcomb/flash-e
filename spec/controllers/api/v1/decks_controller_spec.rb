@@ -39,6 +39,18 @@ RSpec.describe Api::V1::DecksController, type: :controller do
         expect(card['side2']).to eq cards[i].side2
       end
     end
+
+    context 'when a user id is provided as a param' do
+      let!(:user) { FactoryGirl.create(:user) }
+      let!(:user_decks) { FactoryGirl.create_list(:deck, 3, user: user)}
+      it 'renders an array of all decks created by that user' do
+        get :index, params: { user_id: user.id }
+
+        returned_json = JSON.parse(response.body)
+        expect(returned_json['decks']).to be_a Array
+        expect(returned_json['decks'].length).to eq 3
+      end
+    end
   end
 
   describe 'GET#show' do
