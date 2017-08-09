@@ -1,6 +1,6 @@
 import React from 'react'
 
-const CardSection = ({ cards }) => {
+const CardSection = ({ cards, hidden }) => {
   let cardTiles = cards.map(card => {
     return (
       <tr key={card.id} className='card-tile'>
@@ -9,9 +9,9 @@ const CardSection = ({ cards }) => {
       </tr>
     )
   })
-
+  let className = 'card-section' + (hidden ? ' hidden' : '')
   return (
-    <div className='card-section'>
+    <div className={className}>
       <table>
         <tbody>
           <tr>

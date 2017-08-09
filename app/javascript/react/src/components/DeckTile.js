@@ -47,10 +47,9 @@ class DeckTile extends Component {
     let currentUser = this.props.currentUser
     let deck = this.props.deck
     let cards = deck.cards
-    let cardSection, caretClass, caret
+    let caretClass, caret
 
     if (this.state.showingCards) {
-      cardSection = <CardSection cards={cards} />
       caretClass = "fa fa-chevron-circle-down"
     } else {
       caretClass = "fa fa-chevron-circle-right"
@@ -92,7 +91,7 @@ class DeckTile extends Component {
         <div className='left creator'>
           created by <Link to={`/users/${deck.user.id}`}>{deck.user.name}</Link>
         </div>
-        {cardSection}
+        <CardSection cards={cards} hidden={!this.state.showingCards}/>
       </div>
       )
   }

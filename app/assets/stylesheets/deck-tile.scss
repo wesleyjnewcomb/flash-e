@@ -20,12 +20,18 @@ $marigold: #ffd36d;
   color: #AC0057;
 }
 
-.deck-tile .card-section {
+.card-section {
   width: 100%;
   background: #ffffff;
   max-height: 15.5em;
   overflow: scroll;
   border-radius: 2px;
+
+  transition: max-height 0.5s;
+}
+
+.card-section.hidden {
+  max-height: 0px;
 }
 
 .card-section table {
