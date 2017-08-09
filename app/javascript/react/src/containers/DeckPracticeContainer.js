@@ -97,16 +97,15 @@ export default class DeckPracticeContainer extends Component {
   }
 
   nextCard() {
-    if (this.state.currentCard >= this.state.practiceSet.length - 1) {
-      this.finishedAlert()
-    } else {
-      this.setState((prevState, props) => {
-        return {
-          flipped: false,
-          currentCard: prevState.currentCard + 1
-        }
-      })
-    }
+    this.setState({ flipped: false }, () => {
+      window.setTimeout(() => {
+        this.setState((prevState, props) => {
+          return {
+            currentCard: prevState.currentCard + 1
+          }
+        })
+      }, 600)
+    })
   }
 
   removeCard() {

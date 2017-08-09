@@ -20,45 +20,45 @@ $marigold: #ffd36d;
   color: #AC0057;
 }
 
-.deck-tile .card-section {
+.card-section {
   width: 100%;
   background: #ffffff;
   max-height: 15.5em;
   overflow: scroll;
   border-radius: 2px;
+
+  transition: max-height 0.5s;
+}
+
+.card-section.hidden {
+  max-height: 0;
 }
 
 .card-section table {
   width: 100%;
   border-collapse: collapse;
+  border: 1px solid $marigold;
 }
 
 .card-section th {
   background: scale-color($marigold, $lightness: 35%);
-  border-bottom: 1px solid $marigold;
 }
 
 .card-section th.side1 {
   text-align: right;
-  border-right: 1px solid $marigold;
 }
 
 .card-tile {
   background: #ffffff;
-  // background: -moz-linear-gradient(bottom, #edd 0%, #ffffff 100%);
-  // background: -webkit-linear-gradient(bottom, #edd 0%,#ffffff 100%);
-  // background: linear-gradient(to top, #edd 0%,#ffffff 100%);
 }
 
 .card-tile .side1 {
   text-align: right;
   padding-top: 0.5em;
   padding-bottom: 0.5em;
-  border-bottom: 1px solid $marigold;
-  border-right: 1px solid $marigold;
 }
+
 .card-tile .side2 {
   padding-top: 0.5em;
   padding-bottom: 0.5em;
-  border-bottom: 1px solid $marigold;
 }
