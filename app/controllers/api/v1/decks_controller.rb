@@ -50,7 +50,6 @@ class Api::V1::DecksController < ApplicationController
       return render json: { errors: 'User is not deck creator' }, status: 403
     end
     data = JSON.parse(request.body.read)['deck']
-    binding.pry
     errors = []
     @deck.name = data['name'] if data.has_key?('name')
     @deck.description = data['description'] if data.has_key?('description')
