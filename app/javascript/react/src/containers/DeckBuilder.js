@@ -27,7 +27,7 @@ export default class DeckBuilder extends Component {
   }
 
   componentDidMount() {
-    fetchJsonAndCallback(`/api/v1/decks/${this.props.match.params.id}`,
+    fetchJsonAndCallback(`/api/v1/decks/${this.props.match.params.id}`, { },
       response => {
         let { name, description, cards } = response.deck
         this.setState({
