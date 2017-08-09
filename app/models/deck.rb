@@ -8,7 +8,8 @@ class Deck < ApplicationRecord
       attributes = {
         deck: self,
         side1: card_data['side1'],
-        side2: card_data['side2']
+        side2: card_data['side2'],
+        position: card_data['position']
       }
       Card.new(attributes)
     end
@@ -25,6 +26,7 @@ class Deck < ApplicationRecord
       card = Card.find(card_data['id'])
       card.side1 = card_data['side1']
       card.side2 = card_data['side2']
+      card.position = card_data['position']
       if card.valid?
         if card.changed?
           card.save

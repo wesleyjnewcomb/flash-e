@@ -54,8 +54,11 @@ export default class DeckBuilder extends Component {
   }
 
   preparePayload() {
-    let cards = this.state.cards.filter(card => card.id > 0)
-    let newCards = this.state.cards.filter(card => card.id < 0)
+    let positionedCards = this.state.cards.map((card, index) => {
+      return Object.assign({ position: index }, card)
+    })
+    let cards = positionedCards.filter(card => card.id > 0)
+    let newCards = positionedCards.filter(card => card.id < 0)
     let deletedCards = this.state.deletedCards.filter(card => card.id > 0)
     let deletedCardIds = deletedCards.map(card => card.id)
 
