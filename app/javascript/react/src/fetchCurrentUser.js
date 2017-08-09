@@ -1,13 +1,9 @@
+import fetchJsonAndCallback from './fetchJsonAndCallback'
+
 function fetchCurrentUser() {
-  fetch('/api/v1/users/current', {
-    credentials: 'same-origin'
-  })
-  .then(response => {
-    if (response.ok) {
-      return response.json()
-    }
-  })
-  .then(response => {
+  fetchJsonAndCallback('/api/v1/users/current',
+  { credentials: 'same-origin' },
+  response => {
     this.setState({ currentUser: response.user })
   })
 }

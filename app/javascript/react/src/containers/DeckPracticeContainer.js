@@ -4,6 +4,7 @@ import { Redirect } from 'react-router-dom'
 import swal from 'sweetalert'
 
 import PracticeCard from '../components/PracticeCard'
+import fetchJsonAndCallback from '../fetchJsonAndCallback'
 
 export default class DeckPracticeContainer extends Component {
   constructor(props) {
@@ -32,21 +33,17 @@ export default class DeckPracticeContainer extends Component {
   componentDidMount() {
     window.addEventListener('keydown', this.parseKeyPress)
 
-    fetch(`/api/v1/decks/${this.props.match.params.id}`)
-    .then(response => {
-      if(response.ok) {
-        return response.json()
+    fetchJsonAndCallback(`/api/v1/decks/${this.props.match.params.id}`, { },
+      response => {
+        let { name, description, cards } = response.deck
+        this.setState({
+          name: name,
+          description: description,
+          cards: cards,
+          practiceSet: cards
+        })
       }
-    })
-    .then(response => {
-      let { name, description, cards } = response.deck
-      this.setState({
-        name: name,
-        description: description,
-        cards: cards,
-        practiceSet: cards
-      })
-    })
+    )
   }
 
   componentWillUnmount() {
