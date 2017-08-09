@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 
 import TextField from '../components/TextField'
+import fetchJsonAndCallback from '../fetchJsonAndCallback'
 
 class DeckFormContainer extends Component {
   constructor(props) {
@@ -27,17 +28,11 @@ class DeckFormContainer extends Component {
       }
     }
     if(this.state.name.trim() !== '') {
-      fetch('/api/v1/decks', {
+      fetchJsonAndCallback('/api/v1/decks', {
         method: 'POST',
         credentials: 'same-origin',
         body: JSON.stringify(payload)
-      })
-      .then(response => {
-        if (response.ok) {
-          return response.json()
-        }
-      })
-      .then(response => {
+      }, response => {
         this.setState({ newDeckId: response.deck.id })
       })
     }

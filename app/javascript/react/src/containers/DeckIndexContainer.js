@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 
 import DeckTile from '../components/DeckTile'
 import DeckFormContainer from './DeckFormContainer'
+import fetchJsonAndCallback from '../fetchJsonAndCallback'
 import fetchCurrentUser from '../fetchCurrentUser'
 
 class DeckIndexContainer extends Component {
@@ -16,13 +17,7 @@ class DeckIndexContainer extends Component {
   componentDidMount() {
     this.fetchCurrentUser()
 
-    fetch(this.props.fetchPath)
-    .then(response => {
-      if (response.ok) {
-        return response.json()
-      }
-    })
-    .then(response => {
+    fetchJsonAndCallback(this.props.fetchPath, { }, (response) => {
       this.setState({ decks: response.decks })
     })
   }
