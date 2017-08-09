@@ -2,7 +2,8 @@ class DeckSerializer < ActiveModel::Serializer
   attributes :id, :name, :description
 
   attribute :cards do
-    object.cards.map do |card|
+    sorted_cards = Card.where(deck_id: object.id).order(:position)
+    sorted_cards.map do |card|
       {
         id: card.id,
         side1: card.side1,

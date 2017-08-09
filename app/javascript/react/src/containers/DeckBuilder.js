@@ -6,6 +6,7 @@ import swal from 'sweetalert'
 import EditCardTile from '../components/EditCardTile'
 import TextField from '../components/TextField'
 import fetchJsonAndCallback from '../fetchJsonAndCallback'
+import immutableSwap from '../immutableSwap'
 
 export default class DeckBuilder extends Component {
   constructor(props) {
@@ -23,6 +24,7 @@ export default class DeckBuilder extends Component {
     this.addCard = this.addCard.bind(this)
     this.editCard = this.editCard.bind(this)
     this.deleteCard = this.deleteCard.bind(this)
+    this.swapCards = this.swapCards.bind(this)
     this.saveDeck = this.saveDeck.bind(this)
   }
 
@@ -54,8 +56,11 @@ export default class DeckBuilder extends Component {
   }
 
   preparePayload() {
-    let cards = this.state.cards.filter(card => card.id > 0)
-    let newCards = this.state.cards.filter(card => card.id < 0)
+    let positionedCards = this.state.cards.map((card, index) => {
+      return Object.assign({ position: index }, card)
+    })
+    let cards = positionedCards.filter(card => card.id > 0)
+    let newCards = positionedCards.filter(card => card.id < 0)
     let deletedCards = this.state.deletedCards.filter(card => card.id > 0)
     let deletedCardIds = deletedCards.map(card => card.id)
 
@@ -131,6 +136,11 @@ export default class DeckBuilder extends Component {
     this.setState({ cards: updatedCards })
   }
 
+  swapCards(index1, index2) {
+    let newCards = immutableSwap(this.state.cards, index1, index2)
+    this.setState({ cards: newCards })
+  }
+
   deleteCard(id) {
     let removedCard = this.state.cards.filter(card => card.id === id)
     let newCards = this.state.cards.filter(card => card.id !== id)
@@ -148,12 +158,20 @@ export default class DeckBuilder extends Component {
       return <Redirect to={this.state.redirect} />
     }
     let cardTiles = this.state.cards.map((card, i) => {
+      let moveUp, moveDown
+      if (i > 0) {
+        moveUp = () => this.swapCards(i, i - 1)
+      }
+      if (i < this.state.cards.length - 1) {
+        moveDown = () => this.swapCards(i, i + 1)
+      }
       return (
         <EditCardTile key={card.id}
-          index={i}
           cardData={card}
           onChange={this.editCard}
           onDelete={this.deleteCard}
+          moveUp={moveUp}
+          moveDown={moveDown}
         />
       )
     })
