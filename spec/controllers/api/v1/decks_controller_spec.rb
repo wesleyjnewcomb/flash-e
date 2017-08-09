@@ -380,4 +380,66 @@ RSpec.describe Api::V1::DecksController, type: :controller do
       end
     end
   end
+
+  describe 'DELETE#destroy' do
+    context 'when the current user is the owner' do
+      before(:each) do
+        @user = FactoryGirl.create(:user)
+        session[:user_id] = @user.id
+      end
+      let!(:deck) { FactoryGirl.create(:deck, user: @user) }
+      it 'deletes the deck' do
+        delete :destroy, params: { id: deck.id }
+
+        expect(Deck.exists?(id: deck.id)).to eq false
+      end
+
+      it 'deletes all the cards for that deck' do
+        FactoryGirl.create_list(:card, 5, deck: deck)
+        delete :destroy, params: { id: deck.id }
+
+        expect(Card.where(deck_id: deck.id).length).to eq 0
+      end
+
+      it 'responds with with 200' do
+        delete :destroy, params: { id: deck.id }
+
+        expect(response.status).to eq 200
+      end
+    end
+
+    context 'when the current user is not the owner' do
+      let!(:deck) { FactoryGirl.create(:deck) }
+      before(:each) do
+        @user = FactoryGirl.create(:user)
+        session[:user_id] = @user.id
+      end
+
+      it 'does not delete the deck' do
+        delete :destroy, params: { id: deck.id }
+        expect(Deck.exists?(id: deck.id)).to eq true
+      end
+
+      it 'responds with 403' do
+        delete :destroy, params: { id: deck.id }
+
+        expect(response.status).to eq 403
+      end
+    end
+
+    context 'when the user is not signed in' do
+      let!(:deck) { FactoryGirl.create(:deck) }
+      it 'does not delete the deck' do
+        delete :destroy, params: { id: deck.id }
+
+        expect(Deck.exists?(id: deck.id)).to eq true
+      end
+
+      it 'responds with 403' do
+        delete :destroy, params: { id: deck.id }
+
+        expect(response.status).to eq 403
+      end
+    end
+  end
 end

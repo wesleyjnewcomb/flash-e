@@ -78,4 +78,18 @@ class Api::V1::DecksController < ApplicationController
     end
     render json: { errors: errors }, status: 422
   end
+
+  def destroy
+    unless current_user
+      return render json: { errors: 'Must sign in' }, status: 403
+    end
+
+    @deck = Deck.find(params[:id])
+    unless @deck.user == current_user
+      return render json: { errors: 'User is not deck creator' }, status: 403
+    end
+
+    @deck.destroy
+    render json: { message: 'Deck deleted' }, status: 200
+  end
 end
