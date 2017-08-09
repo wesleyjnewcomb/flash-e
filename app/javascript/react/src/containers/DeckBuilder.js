@@ -5,6 +5,7 @@ import swal from 'sweetalert'
 
 import EditCardTile from '../components/EditCardTile'
 import TextField from '../components/TextField'
+import fetchJsonAndCallback from '../fetchJsonAndCallback'
 
 export default class DeckBuilder extends Component {
   constructor(props) {
@@ -26,20 +27,16 @@ export default class DeckBuilder extends Component {
   }
 
   componentDidMount() {
-    fetch(`/api/v1/decks/${this.props.match.params.id}`)
-    .then(response => {
-      if(response.ok) {
-        return response.json()
+    fetchJsonAndCallback(`/api/v1/decks/${this.props.match.params.id}`,
+      response => {
+        let { name, description, cards } = response.deck
+        this.setState({
+          name: name,
+          description: description,
+          cards: cards
+        })
       }
-    })
-    .then(response => {
-      let { name, description, cards } = response.deck
-      this.setState({
-        name: name,
-        description: description,
-        cards: cards
-      })
-    })
+    )
   }
 
   validateDeck() {
@@ -79,19 +76,11 @@ export default class DeckBuilder extends Component {
       return
     }
     let payload = this.preparePayload()
-    fetch(`/api/v1/decks/${this.props.match.params.id}`,{
+    fetchJsonAndCallback(`/api/v1/decks/${this.props.match.params.id}`, {
       method: 'PATCH',
       credentials: 'same-origin',
       body: JSON.stringify(payload)
-    })
-    .then(response => {
-      if (response.ok) {
-        return response.json()
-      } else {
-        swal('Error',`The server responded with ${response.status}.`,'error')
-      }
-    })
-    .then(response => {
+    }, response => {
       let { name, description, cards } = response.deck
       this.setState({
         name: name,

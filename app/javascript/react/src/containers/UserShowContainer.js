@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 
 import DeckIndexContainer from './DeckIndexContainer'
+import fetchJsonAndCallback from '../fetchJsonAndCallback'
 
 class UserShowContainer extends Component {
   constructor(props) {
@@ -12,15 +13,9 @@ class UserShowContainer extends Component {
   }
 
   componentDidMount() {
-    fetch(`/api/v1/users/${this.props.match.params.id}`)
-    .then(response => {
-      if (response.ok) {
-        return response.json()
-      }
-    })
-    .then(response => {
-      this.setState({ user: response.user, fetched: true })
-    })
+    fetchJsonAndCallback(`/api/v1/users/${this.props.match.params.id}`, { },
+      response => this.setState({ user: response.user, fetched: true })
+    )
   }
 
   render() {
