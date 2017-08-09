@@ -15,7 +15,7 @@ RSpec.describe SessionsController, type: :controller do
 
     it 'redirects to the root path' do
       post :create
-      expect(response).to redirect_to(root_path)
+      expect(response).to redirect_to("/users/#{@user.id}")
     end
   end
 
