@@ -117,6 +117,10 @@ export default class DeckPracticeContainer extends Component {
       title: 'Removed from practice set',
       timer: 1200,
       showConfirmButton: false
+    }, () => {
+      if (this.state.currentCard >= this.state.practiceSet.length - 1) {
+        this.finishedAlert()
+      }
     })
   }
 
@@ -206,7 +210,9 @@ export default class DeckPracticeContainer extends Component {
             className='small button'
             title='Previous card'
           >
-            Previous<br/><i className="fa fa-arrow-left" aria-hidden="true"></i>
+            <span className='hide-for-small-only'>Previous</span>
+            <br className='hide-for-small-only'/>
+            <i className="fa fa-arrow-left" aria-hidden="true"></i>
           </button>
         </li>
       )
@@ -214,7 +220,9 @@ export default class DeckPracticeContainer extends Component {
       leftButton = (
         <li>
           <button className='secondary disabled small button'>
-            Previous<br/><i className="fa fa-arrow-left" aria-hidden="true"></i>
+            <span className='hide-for-small-only'>Previous</span>
+            <br className='hide-for-small-only'/>
+            <i className="fa fa-arrow-left" aria-hidden="true"></i>
           </button>
         </li>
       )
@@ -227,7 +235,9 @@ export default class DeckPracticeContainer extends Component {
             className='small button'
             title='Next card'
           >
-            Next<br/><i className="fa fa-arrow-right" aria-hidden="true"></i>
+            <span className='hide-for-small-only'>Next</span>
+            <br className='hide-for-small-only'/>
+            <i className="fa fa-arrow-right" aria-hidden="true"></i>
           </button>
         </li>
       )
@@ -238,12 +248,15 @@ export default class DeckPracticeContainer extends Component {
             className='small button'
             title='Flip'
           >
-            Flip<br/><i className="fa fa-repeat" aria-hidden="true"></i>
+            <span className='hide-for-small-only'>Flip</span>
+            <br className='hide-for-small-only'/>
+            <i className="fa fa-repeat" aria-hidden="true"></i>
           </button>
         </li>
       )
     }
     let card = this.state.practiceSet[this.state.currentCard]
+    card = card || { side1: '', side2: '' }
     return (
       <div className='deck-practice'>
         <h2 className='text-center'>Practice</h2>
@@ -254,7 +267,7 @@ export default class DeckPracticeContainer extends Component {
           onClick={this.flipCard}
         />
         <div className='row'>
-          <div className='small-8 medium-6 large-4 small-centered columns'>
+          <div className='small-10 medium-6 large-4 small-centered columns'>
             <ul className='button-group round even-3'>
               {leftButton}
               <li>
@@ -262,7 +275,9 @@ export default class DeckPracticeContainer extends Component {
                   className='small button'
                   title='Remove from practice set'
                 >
-                  Remove<br/><i className="fa fa-eject" aria-hidden="true"></i>
+                  <span className='hide-for-small-only'>Remove</span>
+                  <br className='hide-for-small-only'/>
+                  <i className="fa fa-eject" aria-hidden="true"></i>
                 </button>
               </li>
               {rightButton}
