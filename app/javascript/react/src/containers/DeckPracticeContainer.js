@@ -115,8 +115,6 @@ export default class DeckPracticeContainer extends Component {
     this.setState({ practiceSet: newPracticeSet, flipped: false })
     swal({
       title: 'Removed from practice set',
-      timer: 1200,
-      showConfirmButton: false
     }, () => {
       if (this.state.currentCard >= this.state.practiceSet.length - 1) {
         this.finishedAlert()
