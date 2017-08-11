@@ -112,7 +112,7 @@ export default class DeckPracticeContainer extends Component {
     let newPracticeSet = this.state.practiceSet.filter((card, i) => {
       return i !== this.state.currentCard
     })
-    this.setState({ practiceSet: newPracticeSet })
+    this.setState({ practiceSet: newPracticeSet, flipped: false })
     swal({
       title: 'Removed from practice set',
       timer: 1200,
