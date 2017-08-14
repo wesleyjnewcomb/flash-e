@@ -152,7 +152,8 @@ export default class DeckPracticeContainer extends Component {
       if (isConfirm) {
         this.stayAlert()
       } else {
-        this.leaveAlert()
+        // this.leaveAlert()
+        this.setState({ redirect: '/decks/' })
       }
     });
   }
