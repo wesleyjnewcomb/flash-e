@@ -145,14 +145,14 @@ export default class DeckPracticeContainer extends Component {
       confirmButtonColor: "#AC0057",
       confirmButtonText: "Practice More",
       cancelButtonText: "Leave",
-      closeOnConfirm: false,
-      closeOnCancel: false
+      closeOnConfirm: false
     },
     (isConfirm) => {
       if (isConfirm) {
         this.stayAlert()
       } else {
-        this.leaveAlert()
+        // this.leaveAlert()
+        this.setState({ redirect: '/decks/' })
       }
     });
   }
