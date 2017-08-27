@@ -43,7 +43,7 @@ class DeckTile extends Component {
   }
 
   render() {
-    if (this.state.deleted) return <div/>
+    if (this.state.deleted) return null
     let currentUser = this.props.currentUser
     let deck = this.props.deck
     let cards = deck.cards

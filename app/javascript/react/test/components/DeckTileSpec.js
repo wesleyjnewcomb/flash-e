@@ -14,6 +14,10 @@ describe('DeckTile', () => {
     id: 1,
     name: name,
     description: description,
+    user: {
+      id: 1,
+      name: 'Wesley Newcomb'
+    },
     cards: [
       { id: 1, side1: 'card 1 side 1', side2: 'card 1 side 2'},
       { id: 2, side1: 'card 2 side 1', side2: 'card 2 side 2'}
@@ -31,17 +35,23 @@ describe('DeckTile', () => {
     expect(wrapper.find(DeckTile)).toBePresent()
   })
   it('should renders the name as an h2', () => {
-    expect(wrapper.find('h2')).toIncludeText(name)
+    expect(wrapper).toIncludeText(name)
   })
-  it('should not render the cards at first', () => {
-    expect(wrapper.find(CardSection)).not.toBePresent()
-  })
-  it('should render the cards if showingCards is true in state', () => {
-    wrapper.setState({ showingCards: true })
+  it('should not render a CardSection', () => {
     expect(wrapper.find(CardSection)).toBePresent()
   })
   it('should pass the correct props to CardSection', () => {
-    wrapper.setState({ showingCards: true })
-    expect(wrapper.find(CardSection).props()).toEqual({ cards: deckData.cards })
+    expect(wrapper.find(CardSection).props()).toEqual({
+      cards: deckData.cards,
+      hidden: true
+    })
+  })
+  it('should show the CardSection when clicked', () => {
+    wrapper.find('h2').simulate('click')
+    expect(wrapper.find(CardSection).prop('hidden')).toEqual(false)
+  })
+  it('should not render anything if the deck has been deleted', () => {
+    wrapper.setState({ deleted: true })
+    expect(wrapper.find('.deck-tile')).not.toBePresent()
   })
 })
