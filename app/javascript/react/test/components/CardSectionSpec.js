@@ -1,5 +1,5 @@
 import React from 'react'
-import { mount } from 'enzyme'
+import { shallow } from 'enzyme'
 import jasmineEnzyme from 'jasmine-enzyme'
 
 import CardSection from '../../src/components/CardSection'
@@ -12,11 +12,15 @@ describe('CardSection', () => {
   ]
 
   beforeEach(() => {
-    wrapper = mount(<CardSection cards={cardsData} />)
+    wrapper = shallow(<CardSection cards={cardsData} hidden={false} />)
   })
 
-  it('should render the CardSection component', () => {
-    expect(wrapper.find(CardSection)).toBePresent()
+  it('should not render with the "hidden" class when hidden is false', () => {
+    expect(wrapper.find('.hidden')).not.toBePresent()
+  })
+  it('should render with the "hidden" class when hidden is true', () => {
+    let hiddenCards = shallow(<CardSection cards={cardsData} hidden={true} />)
+    expect(hiddenCards.find('.hidden')).toBePresent()
   })
   it('should renders a table', () => {
     expect(wrapper.find('table')).toBePresent()
